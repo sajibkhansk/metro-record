@@ -404,39 +404,42 @@ const Home = ({ child }) => {
                     <input type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" value="Continue" />
                 </form>
 
-                <div className={`md:ml-10 md:mr-2 md:mt-0 mt-8 ${originSelect && destSelect ? 'hidden' : ''}`}>
-                    <ul className=" w-full h-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        <li className=" text-2xl w-full px-4 py-2 border-b-4 border-green-600 rounded-t-lg dark:border-gray-600 flex items-center justify-between">
-                            <div className="flex items-center">
-                                <img src={info} className="w-7 h-7" />
-                                <span className="ml-4">{ban ? 'নির্দেশনা' : 'Instructions'}</span>
-                            </div>
-                            <span className="">
+                <div>
+            {/* Instructions section */}
+            <div className={`md:ml-10 md:mr-2 md:mt-0 mt-8 ${originSelect && destSelect ? 'hidden' : ''}`}>
+                <ul className="w-full h-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                    <li className="text-2xl w-full px-4 py-2 border-b-4 border-green-600 rounded-t-lg dark:border-gray-600 flex items-center justify-between">
+                        <div className="flex items-center">
+                            <img src={info} className="w-7 h-7" alt="Info Icon" />
+                            <span className="ml-4">{ban ? 'নির্দেশনা' : 'Instructions'}</span>
+                        </div>
+                        <span>
+                            <label className="relative inline-flex items-center cursor-pointer">
+                                <input onChange={() => setBan(!ban)} type="checkbox" value="" className="sr-only peer" />
+                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                <span className="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{ban ? 'BN' : 'EN'}</span>
+                            </label>
+                        </span>
+                    </li>
+                    <li className="text-lg w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600">{ban ? '১. বাম দিকের ফর্ম থেকে স্টার্ট স্টেশন নির্বাচন করুন৷' : '1. Select start station from the form on the left'}</li>
+                    <li className="text-lg w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600">{ban ? '2. বাম দিকের ফর্ম থেকে গন্তব্য স্টেশন নির্বাচন করুন৷' : '2. Select destination station from the form on the left'}</li>
+                    <li className="w-full px-4 py-2 rounded-b-lg text-lg border-b border-gray-200 dark:border-gray-600">{ban ? '৩. চালিয়ে যেতে প্রেস করুন' : '3. Press continue to proceed'}</li>
+                </ul>
+            </div>
 
-                                <label className="relative inline-flex items-center cursor-pointer">
-
-                                    <input onChange={() => setBan(!ban)} type="checkbox" value="" className="sr-only peer" />
-                                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-                                    <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">{ban ? 'BN' : 'EN'}</span>
-                                </label>
-                            </span></li>
-                        <li className="text-lg w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600">{ban ? '১. বাম দিকের ফর্ম থেকে স্টার্ট স্টেশন নির্বাচন করুন৷' : '1. Select start station from the form on the left'}</li>
-                        <li className="text-lg w-full px-4 py-2 border-b border-gray-200 dark:border-gray-600">{ban ? '2. বাম দিকের ফর্ম থেকে গন্তব্য স্টেশন নির্বাচন করুন৷' : '2. Select destination station from the form on the left'}</li>
-                        <li className="w-full px-4 py-2 rounded-b-lg text-lg border-b border-gray-200 dark:border-gray-600">{ban ? '৩. চালিয়ে যেতে প্রেস করুন' : '3. Press continue to proceed'}</li>
-                    </ul>
-                </div>
-                <div className={`md:ml-10 md:mr-2 md:mt-0 mt-8 ${originSelect && destSelect ? 'block' : 'hidden'}`}>
-
-                    <LoadScript googleMapsApiKey={apiKey}>
-                        <GoogleMap
-                            mapContainerStyle={{ height: '100%', width: '100%' }}
-                            center={{ lat: 23.827960749304314, lng: 90.36445188667143 }} // Default map center
-                            zoom={15} // Default zoom level
-                        >
-                            {directions && <DirectionsRenderer directions={directions} />}
-                        </GoogleMap>
-                    </LoadScript>
-                </div>
+            {/* Map section */}
+            <div className={`md:ml-10 md:mr-2 md:mt-0 mt-8 ${originSelect && destSelect ? 'block' : 'hidden'}`}>
+                <LoadScript googleMapsApiKey={apiKey}>
+                    <GoogleMap
+                        mapContainerStyle={{ height: '400px', width: '100%' }} // Define height and width of the map container
+                        center={{ lat: 23.827960749304314, lng: 90.36445188667143 }} // Default map center
+                        zoom={15} // Default zoom level
+                    >
+                        {directions && <DirectionsRenderer directions={directions} />}
+                    </GoogleMap>
+                </LoadScript>
+            </div>
+        </div>
 
 
 

@@ -49,7 +49,7 @@ const AdminDashboard = () => {
             <div className="ml-2">
               <h2 className="text-lg font-bold">Admin</h2>
               <p className="text-gray-600">ID: 123-456-7890</p>
-              <p className="text-gray-600">Position: Ticekt colllector </p>
+              <p className="text-gray-600">Position: Ticket collector </p>
             </div>
 
           </div>

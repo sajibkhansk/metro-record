@@ -1,43 +1,46 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../Providers/AuthProviders';
-import signinimg from '../../public/signIn.png'
+import signinimg from '../../public/signIn.png';
 
 const Login = () => {
-
-    const {signIn, googleProvider, signWithGoogle } =useContext(AuthContext);
+    const { signIn, googleProvider, signWithGoogle } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
     const from = location.state?.from?.pathname || '/';
-    const handleLoginWithGoogle = () =>{
+    const [error, setError] = useState(null);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLoginWithGoogle = () => {
         signWithGoogle(googleProvider)
-        .then(result => {
-            console.log(result.user);
-            navigate('/mrt')
-        })
-        .catch(error=>{
-            console.log(error);
-        })
-    }
+            .then(result => {
+                console.log(result.user);
+                navigate('/mrt');
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    };
+
     const handleLogin = event => {
         event.preventDefault();
-        const form = event.target;
-        const email = form.email.value;
-        const password = form.password.value;
         console.log(email, password);
-        
-        
+
         signIn(email, password)
             .then(result => {
                 const user = result.user;
                 console.log(user);
-                /*navigate(from, {replace : true})*/
-                navigate("/")
+                navigate("/");
                 
             })
-            .catch(error => console.log(error));
-    }
-    
+            .catch(error => {
+                console.log(error);
+                setEmail(''); // Clear email input
+                setPassword(''); // Clear password input
+                setError('Invalid email or password');
+            });
+    };
 
     return (
         <div>
@@ -53,15 +56,15 @@ const Login = () => {
                                 <label className="label">
                                     <span className="label-text">Email</span>
                                 </label>
-                                <input type="text" name='email' placeholder="email" className="input input-bordered" />
+                                <input type="text" value={email} onChange={e => setEmail(e.target.value)} placeholder="email" className="input input-bordered" />
                             </div>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Password</span>
                                 </label>
-                                <input type="password" name='password' placeholder="password" className="input input-bordered" />
-                                
+                                <input type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="password" className="input input-bordered" />
                             </div>
+                            {error && <p className="text-red-600">{error}</p>}
                             <div className="form-control mt-6">
                                 <input className="btn btn-primary" type="submit" value="Login" />
                             </div>
@@ -69,8 +72,8 @@ const Login = () => {
 
                         <p className='text-center font-semibold text-orange-600'> or </p>
 
-                        <button className='flex justify-center'  onClick={handleLoginWithGoogle}>
-                            <img className='h-14 w-72' src={signinimg}/>
+                        <button className='flex justify-center' onClick={handleLoginWithGoogle}>
+                            <img className='h-14 w-72' src={signinimg} alt="Sign in with Google" />
                         </button>
 
                         <p className='my-4 text-center'>New to Dhka Metro <Link className='text-orange-600 font-bold' to="/signup">Sign Up</Link> </p>
